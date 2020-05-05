@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script type="text/javascript" src="/js/jquery-3.3.1.js"></script>
+</head>
+<body>
+<h3>这是播放页</h3>
+	
+<video id="sound" width="600" height="600" controls="controls"></video>
+</body>
+<script type="text/javascript">
+	$(function(){
+		//创建XMLHttpRequest对象
+	    var xhr = new XMLHttpRequest();
+	    //配置请求方式、请求地址以及是否同步
+	    xhr.open('POST', '/url/playVideo', true);
+	    //设置请求结果类型为blob
+	    xhr.responseType = 'blob';
+	    //请求成功回调函数
+	    xhr.onload = function(e) {
+	        if (this.status == 200) {//请求成功
+	            //获取blob对象
+	            var blob = this.response;
+	            //获取blob对象地址，并把值赋给容器
+	            var url = URL.createObjectURL(blob)
+	            url.host = 'video.mdedu.cn';
+	            console.log(url);
+	            $("#sound").attr("src", url);
+	        }
+	    };
+	  	//构造表单数据
+	    var formData = new FormData();
+	    formData.append('url', 'http://video.mdedu.cn/sv/3ac92de0-16bfef17221/3ac92de0-16bfef17221.mp4');
+	    xhr.send(formData);
+	});
+</script>
+</html>
